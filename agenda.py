@@ -9,7 +9,8 @@ evento_vazio = {
     "horario":"0:00 - 0:00",
     "s_desc":":)",
     "link":"",
-    "l_desc":""
+    "l_desc":"",
+    "dia":"--"
 }
 
 
@@ -45,19 +46,20 @@ class class_agenda:
 
         self.creator = self.data['creator']
         
-        # se o evento está a 30 minutos ou mais de acontecer
+        # Procura pelo primeiro evento futuro. Mostra o evento por até 60 minutos depois do início.
         elem_saver = 0
         for elem in self.data["ocorrs"]:
             if int(self.data["ocorrs"][elem]["inicio"]) + \
                 dias_da_semana.index(self.data["ocorrs"][elem]["dia"])*24*60 \
-                - 30 - int(self.now) >= 0:
-                
+                + 60 - int(self.now) >= 0:
+
                 evento =  self.data["tipos"][ self.data["ocorrs"][elem]["tipo"] ].copy()
 
                 # converte os dados de início e fim para str:horario em evento
                 inicio = str(math.floor(int(self.data["ocorrs"][elem]["inicio"])/60))+":"+fill_str(str(int(self.data["ocorrs"][elem]["inicio"])%60))
                 fim = str(math.floor(int(self.data["ocorrs"][elem]["fim"])/60))+":"+fill_str(str(int(self.data["ocorrs"][elem]["fim"])%60))
                 evento["horario"] = inicio+" - "+fim
+                evento["dia"] = self.data["ocorrs"][elem]["dia"]
 
                 # adiciona o evento
                 self.events.append( evento )
@@ -130,19 +132,19 @@ def render():
         with col1:
             st.write(evento['horario'])
             st.subheader(evento['name'])
-            st.caption(evento['s_desc'])
+            st.caption(evento['dia'])
         
         evento = agenda.events[2]
         with col2:
             st.write(evento['horario'])
             st.subheader(evento['name'])
-            st.caption(evento['s_desc'])
+            st.caption(evento['dia'])
 
         evento = agenda.events[3]
         with col3:
             st.write(evento['horario'])
             st.subheader(evento['name'])
-            st.caption(evento['s_desc'])
+            st.caption(evento['dia'])
     
     st.caption(f"Agenda criada por {agenda.creator}.")
 
