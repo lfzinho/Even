@@ -50,7 +50,7 @@ class class_agenda:
         for elem in self.data["ocorrs"]:
             if int(self.data["ocorrs"][elem]["inicio"]) + \
                 dias_da_semana.index(self.data["ocorrs"][elem]["dia"])*24*60 \
-                - 30 - int(self.now) >= 0:
+                + 30 - int(self.now) >= 0:
                 
                 evento =  self.data["tipos"][ self.data["ocorrs"][elem]["tipo"] ].copy()
 
