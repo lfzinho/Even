@@ -31,8 +31,13 @@ def fill_str(str):
         return str
 
 class class_agenda:
-    now = get_min(datetime.datetime.now(), dias_da_semana[datetime.datetime.today().weekday()+1])
+    #encontra o dia e horário atual e transforma ele pro sistema de tempo dos eventos
+    dia_da_semana_hoje = datetime.datetime.today().weekday()+1
+    if dia_da_semana_hoje == 7:
+        dia_da_semana_hoje = 0
+    now = get_min(datetime.datetime.now(), dias_da_semana[dia_da_semana_hoje])
 
+    # código init
     def __init__(self, mongo_query) -> None:
         self.mongo_query = mongo_query
         self.data = {}
@@ -40,6 +45,7 @@ class class_agenda:
         self.events = []
         self.creator = ""
     
+    # código de trasnformação dos dados do banco pra dados da classe
     def bake(self):
         for elem in self.mongo_query:
             self.data = elem
@@ -65,7 +71,7 @@ class class_agenda:
                 self.events.append( evento )
                 elem_saver += 1
 
-                if elem_saver == 3: # salva no max 4 elementos
+                if elem_saver == 4: # salva no max 4 elementos
                     break
         
         if elem_saver <= 3: # se n tem elems o suficiente pra fechar a agenda
@@ -91,7 +97,7 @@ def render():
         db["notas"].insert_one({"name":agenda_name, "texto":"Sem notas."})
         notas = {"texto":"Sem notas."}
 
-    notas_update = st.text_area("Notas comunitárias", notas["texto"])
+    notas_update = st.text_area("Notas comunitárias", notas["texto"], 200)
 
     # editando as notas
     if st.button("Atualizar notas"):
@@ -147,6 +153,7 @@ def render():
             st.caption(evento['dia'])
     
     st.caption(f"Agenda criada por {agenda.creator}.")
+
 
 
 def get_a_names():
