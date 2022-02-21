@@ -1,7 +1,11 @@
+from time import timezone
 import streamlit as st
 import datetime
 import pymongo
+import pytz
 import math
+
+tz_brasil = pytz.timezone("America/Sao_Paulo")
 
 dias_da_semana = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"]
 evento_vazio = {
@@ -35,7 +39,7 @@ class class_agenda:
     dia_da_semana_hoje = datetime.datetime.today().weekday()+1
     if dia_da_semana_hoje == 7:
         dia_da_semana_hoje = 0
-    now = get_min(datetime.datetime.now(), dias_da_semana[dia_da_semana_hoje])
+    now = get_min(datetime.datetime.now(tz_brasil), dias_da_semana[dia_da_semana_hoje])
 
     # código init
     def __init__(self, mongo_query) -> None:
