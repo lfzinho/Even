@@ -39,12 +39,6 @@ class class_agenda:
     if dia_da_semana_hoje == 7:
         dia_da_semana_hoje = 0
     now = get_min(datetime.datetime.now(tz_brasil), dias_da_semana[dia_da_semana_hoje])
-    st.markdown(f"""
-                #### Debug
-                now: {int(now)} \n
-                dia de hoje: {dia_da_semana_hoje} \n
-                dia em letras: {dias_da_semana[dia_da_semana_hoje]}
-                """)
 
     # código init
     def __init__(self, mongo_query) -> None:
@@ -58,7 +52,13 @@ class class_agenda:
     def bake(self):
         for elem in self.mongo_query:
             self.data = elem
-
+        
+        st.markdown(f"""
+                    #### Debug
+                    now: {int(now)} \n
+                    dia de hoje: {dia_da_semana_hoje} \n
+                    dia em letras: {dias_da_semana[dia_da_semana_hoje]}
+                    """)
         self.creator = self.data['creator']
         
         # Procura pelo primeiro evento futuro ou evento que está a mais de 10 min de acabar
