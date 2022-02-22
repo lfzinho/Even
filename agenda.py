@@ -53,13 +53,13 @@ class class_agenda:
         for elem in self.mongo_query:
             self.data = elem
         
-        st.markdown(f"""
-                    #### Debug
-                    now: {int(self.now)} \n
-                    dia de hoje: {self.dia_da_semana_hoje} \n
-                    dia em letras: {dias_da_semana[self.dia_da_semana_hoje]}
-                    """)
         self.creator = self.data['creator']
+
+        # atualiza data e now
+        self.dia_da_semana_hoje = datetime.datetime.today().weekday()+1
+        if self.dia_da_semana_hoje == 7:
+            self.dia_da_semana_hoje = 0
+        self.now = get_min(datetime.datetime.now(tz_brasil), dias_da_semana[self.dia_da_semana_hoje])
         
         # Procura pelo primeiro evento futuro ou evento que está a mais de 10 min de acabar
         elem_saver = 0
