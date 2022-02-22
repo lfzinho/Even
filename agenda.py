@@ -55,9 +55,9 @@ class class_agenda:
         
         st.markdown(f"""
                     #### Debug
-                    now: {int(now)} \n
-                    dia de hoje: {dia_da_semana_hoje} \n
-                    dia em letras: {dias_da_semana[dia_da_semana_hoje]}
+                    now: {int(self.now)} \n
+                    dia de hoje: {self.dia_da_semana_hoje} \n
+                    dia em letras: {dias_da_semana[self.dia_da_semana_hoje]}
                     """)
         self.creator = self.data['creator']
         
