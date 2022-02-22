@@ -40,6 +40,12 @@ class class_agenda:
     if dia_da_semana_hoje == 7:
         dia_da_semana_hoje = 0
     now = get_min(datetime.datetime.now(tz_brasil), dias_da_semana[dia_da_semana_hoje])
+    st.markdown(f"""
+                #### Debug
+                now: {int(now)} \n
+                dia de hoje: {dia_da_semana_hoje} \n
+                dia em letras: {dias_da_semana[dia_da_semana_hoje]}
+                """)
 
     # código init
     def __init__(self, mongo_query) -> None:
@@ -56,12 +62,16 @@ class class_agenda:
 
         self.creator = self.data['creator']
         
-        # Procura pelo primeiro evento futuro. Mostra o evento por até 60 minutos depois do início.
+        # Procura pelo primeiro evento futuro ou evento que está a mais de 10 min de acabar
         elem_saver = 0
         for elem in self.data["ocorrs"]:
+
             if int(self.data["ocorrs"][elem]["inicio"]) + \
                 dias_da_semana.index(self.data["ocorrs"][elem]["dia"])*24*60 \
-                + 60 - int(self.now) >= 0:
+                - int(self.now) >= 0 or \
+                int(self.data["ocorrs"][elem]["fim"]) + \
+                dias_da_semana.index(self.data["ocorrs"][elem]["dia"])*24*60 \
+                - 10 - int(self.now) >= 0:
 
                 evento =  self.data["tipos"][ self.data["ocorrs"][elem]["tipo"] ].copy()
 
