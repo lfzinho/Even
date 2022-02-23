@@ -15,7 +15,7 @@ st.set_page_config(page_title= 'Even',
                    })
 
 st.image("Even-logo.png")
-st.write("Um quadro de notas comunitário & horários de aula rápido e prático.✅")
+st.write("Uma agenda de eventos semanais com um quadro de notas comunitário. É rápido, prático e funciona direto do browser. ✅")
 st.caption(f"Última atualização: {datetime.now(tz_brasil).strftime('%H:%M')}")
 
 # selecionar página
